@@ -1,11 +1,17 @@
 
 import http from '../config/banco';
 
-export const findAllEditoras = async () =>{
+export const findAllEditoras = async (page, pageSize, dir, props) =>{
     return (
         http({
             method:'GET',
-            url:'/editora/listar'
+            url:'/editora/listar',
+            params:{
+                page,
+                pageSize,
+                dir,
+                props
+            }
         }).then( ( resp ) =>{
             return resp.data
         }).catch(( error ) => {

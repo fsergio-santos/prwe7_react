@@ -1,20 +1,35 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHeaders from '../../components/header/PageHeaders';
-import { GradeSistema } from '../../components/content/styled';
+import { GradeSistema, Rodape } from '../../components/content/styled';
 import { findAllEditoras } from '../../Service/EditoraService';
+import Pagination from '../../components/table/Pagination';
 
 const ListarEditora = () => {
 
     const [lista, setLista] = useState([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+    const [total, setTotal] = useState(0);
+    const [dir, setDir] = useState('asc');
+    const [props, setProps] = useState('id');
     
     useEffect( () => {
         async function loadData(){
-            const data = await findAllEditoras();
-            setLista(data.dados);
+            const data = await findAllEditoras(page, pageSize, dir, props);
+            setPage(data.currentPage);
+            setPageSize(data.pageSize);
+            setTotal(data.lastPage);
+            setLista(data.registros);
         }
         loadData();
-    },[]) 
+    },[page, pageSize, dir, props]) 
+
+
+    const changePage = (selectPage) => {
+        console.log("pegando a página "+selectPage)
+        setPage(selectPage);
+    }
 
     return(
       <Fragment>
@@ -61,11 +76,20 @@ const ListarEditora = () => {
                   </tbody>
 
               </table>
-              <Link to={'/editora/inserir'}
-                    className="btn btn-success btn-sm"
-                    title='Incluir registro'
-                    >Incluir Registro<i className='fa fa-plus-circle'></i> 
-              </Link>
+              <div class="pull-right"> 
+                <Pagination 
+                   page={page}
+                   total={total}
+                   changePages={(selectPage)=>changePage(selectPage)}/>
+              </div>     
+              <br/>
+              <Rodape>
+                <Link to={'/editora/inserir'}
+                        className="btn btn-success btn-sm"
+                        title='Incluir registro'
+                        >Incluir Registro<i className='fa fa-plus-circle'></i> 
+                </Link>
+              </Rodape>
 
         </GradeSistema>
               

@@ -1,2 +1,2 @@
 
-export const SERVIDOR_LARAVEL = 'http://localhost:8000';
+export const SERVIDOR_LARAVEL = 'http://localhost:8000/api';
