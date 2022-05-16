@@ -8,8 +8,6 @@ const Pagination = ({ page, total, changePages }) => {
    let ellipseLeft = false;
    let ellipseRight = false;
    
-
-
    for (let i = 1; i<=total; i++){
       
         if (i===currentPage){

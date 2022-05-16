@@ -20,6 +20,27 @@ export const findAllEditoras = async (page, pageSize, dir, props) =>{
     )
 }
 
+
+export const findAllEditorasByName = async (nome, page, pageSize, dir, props) =>{
+    return (
+        http({
+            method:'GET',
+            url:'/editora/listar/',
+            params:{
+                page,
+                pageSize,
+                dir,
+                props,
+                nome
+            }
+        }).then( ( resp ) =>{
+            return resp.data
+        }).catch(( error ) => {
+            return error.response
+        }) 
+    )
+}
+
 export const findEditoraById = async (id) => {
     return (
         http({

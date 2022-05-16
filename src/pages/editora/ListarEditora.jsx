@@ -2,8 +2,10 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHeaders from '../../components/header/PageHeaders';
 import { GradeSistema, Rodape } from '../../components/content/styled';
-import { findAllEditoras } from '../../Service/EditoraService';
+import { findAllEditoras, findAllEditorasByName } from '../../Service/EditoraService';
 import Pagination from '../../components/table/Pagination';
+import SelectNumberPage from '../../components/table/SelectNumberPages';
+import SearchData from '../../components/table/SearchData';
 
 const ListarEditora = () => {
 
@@ -13,6 +15,7 @@ const ListarEditora = () => {
     const [total, setTotal] = useState(0);
     const [dir, setDir] = useState('asc');
     const [props, setProps] = useState('id');
+    const [nome, setNome] = useState('');
     
     useEffect( () => {
         async function loadData(){
@@ -25,15 +28,40 @@ const ListarEditora = () => {
         loadData();
     },[page, pageSize, dir, props]) 
 
+    
+    useEffect( () => {
+      async function loadDataByName(){
+          const data = await findAllEditorasByName(nome, page, pageSize, dir, props);
+          setPage(data.currentPage);
+          setPageSize(data.pageSize);
+          setTotal(data.lastPage);
+          setLista(data.registros);
+      }
+      loadDataByName();
+  },[nome, page, pageSize, dir, props]) 
 
     const changePage = (selectPage) => {
-        console.log("pegando a página "+selectPage)
         setPage(selectPage);
+    }
+
+    const changePageSize = (sizePage) => {
+        setPageSize(sizePage)
+    }
+
+    const setSearchByName = ( nomePesquisa ) => {
+      if (nomePesquisa.trim().length > 0 ){
+        setNome(nomePesquisa)
+        setProps('nome')
+      } else {
+        setNome(''); 
+        setProps('id');
+      }
+
     }
 
     return(
       <Fragment>
-        <div className='container'>
+        <div className='container col-md-offset-4'>
           <PageHeaders 
              tituloPagina="Listagem de Editoras"
              path="/dashboard"
@@ -43,6 +71,16 @@ const ListarEditora = () => {
           />
           <GradeSistema>
 
+              <div className='row'> 
+                <SelectNumberPage 
+                    pageSize={pageSize}
+                    setPageSize = {(sizePage) => changePageSize(sizePage)}/>
+
+                <SearchData
+                    setPesquisaNome={(nomePesquisa) => setSearchByName(nomePesquisa)}
+                />     
+              </div>
+              <br/>
               <table className="table table-striped table-bordered table-hover">
                   <thead>
                      <tr>
