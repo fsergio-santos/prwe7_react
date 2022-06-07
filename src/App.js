@@ -7,10 +7,13 @@ import ListarEditora from "./pages/editora/ListarEditora";
 import IncluirEditora from "./pages/editora/IncluirEditora";
 import AlterarEditora from "./pages/editora/AlterarEditora";
 import IncluirUsuario from './pages/usuario/IncluirUsuario'; 
+import GlobalStyles from "./globalstyles/GlobalStyles";
+
 
 function App() {
   return (
     <Fragment>
+      <GlobalStyles/>
       <BrowserRouter>
          <Layout>
           <Routes>

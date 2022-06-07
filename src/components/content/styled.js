@@ -25,13 +25,14 @@ min-height: calc(100vh - 50px);
 
 
 export const GradeSistema = styled.div`
-    postion:relativa;
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 40px;
-    margin-right: 5%;
-    margin-left: 5%;
-    margin-bottom: 30px;
+   position: relative;
+   background: #ffffff;
+   border-radius: 6px;
+   padding:40px;
+   margin-left: auto;
+   margin-right:auto;
+   margin: 0 5% 30px;
+   margin-bottom:30px;
    
 
 `;
